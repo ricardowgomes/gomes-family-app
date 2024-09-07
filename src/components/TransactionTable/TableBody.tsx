@@ -21,7 +21,7 @@ export const TableBody: React.FC<TransactionTableProps> = ({
       labelId,
       transactionId,
     });
-  }
+  };
 
   return (
     <Tbody>

@@ -61,11 +61,11 @@ export async function GET(request: Request) {
       },
     });
 
-  return Response.json(transactions);
+    return Response.json(transactions);
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 }
@@ -80,7 +80,6 @@ export async function POST(request: Request) {
     // Process labels: either connect to existing labels or create new ones
     const processedLabels = await Promise.all(
       labelIds.map(async (labelId: string) => {
-
         const existingLabel = await prisma.label.findUnique({
           where: { id: labelId },
         });
@@ -90,7 +89,7 @@ export async function POST(request: Request) {
         } else {
           throw new Error(`Label with id ${labelId} not found`);
         }
-      })
+      }),
     );
 
     // Create the transaction with associated labels
@@ -107,7 +106,7 @@ export async function POST(request: Request) {
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 }

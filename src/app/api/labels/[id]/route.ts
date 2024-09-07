@@ -33,22 +33,22 @@ export async function DELETE(
       where: {
         labels: {
           some: {
-            id
-          }
-        }
-      }
+            id,
+          },
+        },
+      },
     });
 
     // Update each transaction to remove the label
-    const updatePromises = transactions.map(transaction =>
+    const updatePromises = transactions.map((transaction) =>
       prisma.transaction.update({
         where: { id: transaction.id },
         data: {
           labels: {
-            disconnect: { id }
-          }
-        }
-      })
+            disconnect: { id },
+          },
+        },
+      }),
     );
 
     // Await all updates
@@ -56,7 +56,7 @@ export async function DELETE(
 
     // Step 2: Delete the label itself
     await prisma.label.delete({
-      where: { id }
+      where: { id },
     });
 
     return Promise.resolve(new Response(null, { status: 200 }));
