@@ -3,14 +3,14 @@ import CreatableSelect from "react-select/creatable";
 import { useMutateLabel, useQueryLabels } from "@/hooks/labels";
 import { SingleValue } from "react-select";
 import { VStack } from "@chakra-ui/react";
-import { Transaction } from "@/types";
+import { NewTransaction } from "@/types";
 import SelectedLabels from "./SelectedLabels";
 import styles from "./LabelSelector.module.scss";
 
 interface LabelSelectorProps {
   onLabelSelection: (labelId: string) => void;
   onLabelRemoval: (labelId: string) => void;
-  selectedLabelIds: Transaction["labelIds"];
+  selectedLabelIds: NewTransaction["labelIds"];
 }
 
 interface SelectOption {

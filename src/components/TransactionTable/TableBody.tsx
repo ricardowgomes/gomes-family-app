@@ -16,11 +16,12 @@ export const TableBody: React.FC<TransactionTableProps> = ({
   const { updateTransaction, removeTransaction, removeLabelFromTransaction } =
     useMutateTransaction();
 
-  const onLabelClose = (transactionId: string, labelId: string) =>
+  const onLabelClose = (transactionId: string, labelId: string) => {
     removeLabelFromTransaction.mutate({
       labelId,
       transactionId,
     });
+  }
 
   return (
     <Tbody>
@@ -42,12 +43,12 @@ export const TableBody: React.FC<TransactionTableProps> = ({
           <Td>{format(new Date(transaction.date), "dd/MM/yyyy")}</Td>
           <Td>
             <VStack>
-              {transaction.labelIds &&
-                transaction.labelIds.map((labelId) => (
+              {transaction.labels &&
+                transaction.labels.map((label) => (
                   <LabelTag
-                    key={labelId}
-                    labelId={labelId}
-                    onCloseClick={() => onLabelClose(transaction.id, labelId)}
+                    key={label.id}
+                    labelId={label.id}
+                    onCloseClick={() => onLabelClose(transaction.id, label.id)}
                   />
                 ))}
             </VStack>

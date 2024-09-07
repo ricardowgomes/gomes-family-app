@@ -22,17 +22,43 @@ export async function GET(
 }
 
 export async function DELETE(
-  request: Request,
+  _request: Request,
   context: { params: { id: string } },
 ) {
   const id = context.params.id;
 
   try {
-    await prisma.label.delete({
+    // Step 1: Find all transactions with the given label and disassociate the label
+    const transactions = await prisma.transaction.findMany({
       where: {
-        id,
-      },
+        labels: {
+          some: {
+            id
+          }
+        }
+      }
     });
+
+    // Update each transaction to remove the label
+    const updatePromises = transactions.map(transaction =>
+      prisma.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          labels: {
+            disconnect: { id }
+          }
+        }
+      })
+    );
+
+    // Await all updates
+    await Promise.all(updatePromises);
+
+    // Step 2: Delete the label itself
+    await prisma.label.delete({
+      where: { id }
+    });
+
     return Promise.resolve(new Response(null, { status: 200 }));
   } catch (error) {
     return Promise.reject(error);

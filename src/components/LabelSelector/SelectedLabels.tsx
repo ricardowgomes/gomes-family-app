@@ -1,9 +1,9 @@
 import { Flex } from "@chakra-ui/react";
 import LabelTag from "../LabelTag/LabelTag";
-import { Transaction } from "@/types";
+import { NewTransaction } from "@/types";
 
 interface SelectedLabelsProps {
-  labelIds: Transaction["labelIds"];
+  labelIds: NewTransaction["labelIds"];
   handleRemoveLabel: (labelId: string) => void;
 }
 

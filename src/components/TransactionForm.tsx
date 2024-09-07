@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Label, type NewTransaction, TransactionType } from "@/types";
+import { type NewTransaction, TransactionType } from "@/types";
 import {
   FormControl,
   FormLabel,

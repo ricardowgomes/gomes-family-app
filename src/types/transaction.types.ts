@@ -1,3 +1,5 @@
+import { Label } from "./label.types";
+
 export enum TransactionType {
   EXPENSE = "expense",
   INCOME = "income",
@@ -8,7 +10,6 @@ export interface BaseTransaction {
   name: string;
   amount: number;
   date: string;
-  labelIds?: string[];
 }
 
 export interface NewTransaction extends BaseTransaction {
@@ -17,6 +18,7 @@ export interface NewTransaction extends BaseTransaction {
 
 export interface Transaction extends BaseTransaction {
   id: string;
+  labels: Label[];
 }
 
 export type PartialTransaction = Partial<Transaction>;
