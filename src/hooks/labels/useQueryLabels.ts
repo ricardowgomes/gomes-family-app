@@ -24,10 +24,14 @@ export const useQueryLabels = () => {
   const excludeIdFromSearch = (id: string) =>
     setExcludedIds((prev) => [...prev, id]);
 
+  const removeFromExcludedList = (id: string) =>
+    setExcludedIds((prev) => prev.filter((excludedId) => excludedId !== id));
+
   return {
     ...queryRequest,
     searchTerm,
     setSearchTerm,
     excludeIdFromSearch,
+    removeFromExcludedList,
   };
 };

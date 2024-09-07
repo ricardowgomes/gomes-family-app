@@ -7,6 +7,7 @@ import { Heading, VStack } from '@chakra-ui/react';
 import { Metadata } from 'next';
 import ModalContainer from '@/components/Modals/ModalContainer';
 import { ModalTypes } from '@/constants';
+import PageContainer from '@/layouts/PageContainer';
 
 export const metadata: Metadata = {
   title: "Gomes Family Finances",
@@ -24,12 +25,9 @@ export default async function Finances() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <VStack>
-        <Heading as='h1' size='2xl' noOfLines={1}>
-          Last transactions
-        </Heading>
+      <PageContainer heading="Last transactions">
         <TransactionTable />
-      </VStack>
+      </PageContainer>
       <ModalContainer name={ModalTypes.ADD_TRANSACTION} />
     </HydrationBoundary>
   )

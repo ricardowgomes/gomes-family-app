@@ -13,7 +13,7 @@ interface SidebarItemProps {
 
 const SidebarItem: React.FC<SidebarItemProps> = ({ children, href, isExpanded, onToggle }) => (
   <ListItem>
-    <Link as={NextLink} href={href} p={2} display="flex" alignItems="center" onClick={onToggle}>
+    <Link as={NextLink} href={href} p={2} display="flex" alignItems="center" onClick={onToggle} color={"white"}>
       {children}
       {
         onToggle && (
@@ -30,7 +30,7 @@ const Sidebar = () => {
   const { isOpen: isOpenFinances, onToggle: onToggleFinances } = useDisclosure();
 
   return (
-    <Box as="nav" p={4} w="250px" borderRight="1px" borderColor="gray.200" h="100vh" bg="gray.50">
+    <Box as="nav" p={4} w="100%" borderRight="1px" borderColor="gray.200" h="100vh" bg="teal">
       <List spacing={3}>
         <SidebarItem href="/" isExpanded={false}>
           <Text>Home</Text>

@@ -14,7 +14,15 @@ function cuidToNumber(cuid: string): number {
   return number;
 }
 
-const getColor = (cuid: string): Colors => colors[cuidToNumber(cuid) % 10];
+const getColor = (cuid: string): Colors => {
+  try {
+    const number = cuidToNumber(cuid);
+    return colors[number % 10];
+  } catch (error) {
+    console.log("Error getting color for label:", error);
+    return Colors.Gray;
+  }
+};
 
 interface LabelTagProps {
   labelId: Label["id"];

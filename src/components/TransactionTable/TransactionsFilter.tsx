@@ -63,8 +63,8 @@ const TransactionsFilter: React.FC<FilterBarProps> = ({ setStartDate, setEndDate
               id="sortOrder"
               onChange={(e) => setSortOrder(e.target.value as SortOrder)}
             >
-              <option value={SortOrder.ASC}>Ascending</option>
               <option value={SortOrder.DESC}>Descending</option>
+              <option value={SortOrder.ASC}>Ascending</option>
             </Select>
           </FormControl>
       </HStack>

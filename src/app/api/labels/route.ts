@@ -19,6 +19,9 @@ export async function GET(request: Request) {
           notIn: excludedIds,
         },
       },
+      orderBy: {
+        name: 'asc',
+      }
     })
     return Response.json(labels);
   } catch (error) {

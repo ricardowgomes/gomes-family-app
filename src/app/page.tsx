@@ -1,10 +1,10 @@
 import React from 'react'
-import { Heading } from '@chakra-ui/react';
+import PageContainer from '@/layouts/PageContainer';
 
 export default async function Home() {
   return (
-    <Heading>
-      Gomes Family App
-    </Heading>
+    <PageContainer heading="Gomes Family App">
+      <div>Here's the summary or something</div>
+    </PageContainer>
   )
 }

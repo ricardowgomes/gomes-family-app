@@ -1,5 +1,5 @@
 import EditableField from "@/components/EditableField/EditableField";
-import LabelTag from "@/components/Labels/LabelTag/LabelTag";
+import LabelTag from "@/components/LabelTag/LabelTag";
 import { useMutateTransaction } from "@/hooks/transactions";
 import { Transaction } from "@/types";
 import { DeleteIcon } from "@chakra-ui/icons";

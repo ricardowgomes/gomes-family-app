@@ -1,4 +1,3 @@
-import { TransactionFilters } from '@/types';
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
@@ -16,10 +15,12 @@ export async function GET(request: Request) {
     minAmount,
     maxAmount,
     sortBy = 'date',
-    sortOrder = 'asc'
+    sortOrder = 'desc'
   } = queryObj;
 
   const labelsArray = labelIds.split(',');
+  const minAmountNumber = minAmount ? parseFloat(minAmount) : undefined;
+  const maxAmountNumber = maxAmount ? parseFloat(maxAmount) : undefined;
 
   const filters: any = {
     AND: [
@@ -28,8 +29,8 @@ export async function GET(request: Request) {
       labelIds.length > 0 ? { labelIds: { some: { id: { in: labelsArray } } } } : undefined,
       startDate ? { date: { gte: new Date(startDate) } } : undefined,
       endDate ? { date: { lte: new Date(endDate) } } : undefined,
-      minAmount !== undefined ? { amount: { gte: minAmount } } : undefined,
-      maxAmount !== undefined ? { amount: { lte: maxAmount } } : undefined
+      minAmount !== undefined ? { amount: { gte: minAmountNumber } } : undefined,
+      maxAmount !== undefined ? { amount: { lte: maxAmountNumber } } : undefined
     ].filter(Boolean)
   };
 

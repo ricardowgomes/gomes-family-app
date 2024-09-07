@@ -65,10 +65,12 @@ export class TransactionService extends BaseService {
     transactionId: string;
     labelId: string;
   }) => {
-    const url = `${this.baseUrl}/${transactionId}/labels/${labelId}`;
+    const url = `${this.baseUrl}/${transactionId}/labels`;
 
     try {
-      const response = await axios.delete(url);
+      const response = await axios.patch(url, {
+        params: { labelId },
+      });
       return response.data;
     } catch (error) {
       return Promise.reject(error);

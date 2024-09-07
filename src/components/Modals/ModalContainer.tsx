@@ -45,8 +45,10 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         bottom="4"
         right="4"
         aria-label="open modal"
-        icon={<AddIcon />}
+        colorScheme="teal"
+        icon={<AddIcon color='white' />}
         onClick={() => setIsOpen(true)}
+        size='lg'
       />
       <Modal isOpen={isOpen} onClose={onCloseHandler}>
         <ModalOverlay />

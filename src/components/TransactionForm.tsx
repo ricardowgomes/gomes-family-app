@@ -8,11 +8,10 @@ import {
   Button,
   Box,
   Stack,
-  HStack,
 } from "@chakra-ui/react";
 import { useMutateTransaction } from "@/hooks/transactions";
-import { LabelSelector } from "./LabelSelector";
-import LabelTag from "@/components/Labels/LabelTag/LabelTag";
+import LabelSelector from "./LabelSelector/LabelSelector";
+import { useQueryLabels } from "@/hooks/labels";
 
 const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { addTransaction } = useMutateTransaction();
@@ -23,6 +22,7 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
     date: new Date().toISOString(),
     labelIds: [],
   });
+  const { removeFromExcludedList } = useQueryLabels();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -40,7 +40,7 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
     onSuccess();
   };
 
-  const handleSelectLabel = (labelId: string) => {
+  const onLabelSelection = (labelId: string) => {
     setTransaction((prev) => {
       if (prev.labelIds.includes(labelId)) {
         return prev;
@@ -52,11 +52,12 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
     });
   };
 
-  const handleRemoveLabel = (labelId: string) => {
+  const onLabelRemoval = (labelId: string) => {
     setTransaction((prev) => ({
       ...prev,
-      labels: prev.labelIds?.filter((id) => id !== labelId),
+      labelIds: prev.labelIds.filter((id) => id !== labelId),
     }));
+    removeFromExcludedList(labelId);
   };
 
   return (
@@ -110,17 +111,11 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
             />
           </FormControl>
 
-          <LabelSelector selectLabel={handleSelectLabel} />
-
-          <HStack>
-            {transaction.labelIds?.map((id) => (
-              <LabelTag
-                key={id}
-                labelId={id}
-                onCloseClick={() => handleRemoveLabel(id)}
-              />
-            ))}
-          </HStack>
+          <LabelSelector
+            onLabelSelection={onLabelSelection}
+            onLabelRemoval={onLabelRemoval}
+            selectedLabelIds={transaction.labelIds}
+          />
 
           <Button colorScheme="teal" type="submit">
             Submit

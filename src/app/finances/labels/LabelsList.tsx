@@ -1,8 +1,9 @@
 'use client'
 
+import EditableField from "@/components/EditableField/EditableField";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { useMutateLabel, useQueryLabels } from "@/hooks/labels";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Table,
   Thead,
@@ -13,42 +14,36 @@ import {
   TableContainer,
   IconButton,
   Text,
+  VStack,
 } from '@chakra-ui/react'
 
 const LabelsList = () => {
   const { data: labels, setSearchTerm } = useQueryLabels();
   const { removeLabel, updateLabel } = useMutateLabel();
 
-  console.log('LabelsList labels', labels);
-
   return (
-    <div>
+    <VStack width='100%'>
      <SearchBar placeholder="search for labels" setSearchTerm={setSearchTerm} />
       {
         labels.length === 0 ? (
           <Text>No labels found</Text>
         ) : (
-          <TableContainer>
+          <TableContainer width='100%'>
             <Table variant='simple'>
               <Thead>
                 <Tr>
                   <Th>name</Th>
                   <Th/>
-                  <Th/>
                 </Tr>
               </Thead>
               <Tbody>
-              {labels?.map((label) => (
+              {labels.map((label) => (
                   <Tr key={label.id}>
-                    <Td>{label.name}</Td>
                     <Td>
-                      <IconButton
-                        aria-label="edit label"
-                        variant="outline"
-                        onClick={() => updateLabel.mutate(label)}
-                        icon={<EditIcon color="teal" />}
-                        size="sm"
-                      />
+                      <EditableField defaultValue={label.name} onSubmit={(value) => updateLabel.mutate({
+                        id: label.id,
+                        name: value
+                      })} />
                     </Td>
                     <Td>
                       <IconButton
@@ -66,7 +61,7 @@ const LabelsList = () => {
           </TableContainer>
         )
       }
-    </div>
+    </VStack>
   );
 };
 

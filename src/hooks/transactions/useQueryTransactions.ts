@@ -4,7 +4,6 @@ import { useServices } from "../useServices";
 import { useState } from "react";
 import useDebounce from "../useDebounce";
 import { SortBy, SortOrder } from "@/types";
-import { set } from "date-fns";
 
 export const useQueryTransactions = () => {
   const { transactionService } = useServices();
@@ -15,8 +14,14 @@ export const useQueryTransactions = () => {
     "",
     300,
   );
-  const [minAmount, setMinAmount] = useState<number | null>(null);
-  const [maxAmount, setMaxAmount] = useState<number | null>(null);
+  const [minAmount, debouncedMinAmount, setMinAmount] = useDebounce<number | null>(
+    null,
+    500,
+  );
+  const [maxAmount, debouncedMaxAmount, setMaxAmount] = useDebounce<number | null>(
+    null,
+    500,
+  );
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DATE);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.DESC);
 
@@ -37,8 +42,8 @@ export const useQueryTransactions = () => {
       endDate,
       labelIds,
       searchTerm: debouncedSearchTerm,
-      minAmount,
-      maxAmount,
+      minAmount: debouncedMinAmount,
+      maxAmount: debouncedMaxAmount,
       sortBy,
       sortOrder,
     }),
@@ -47,8 +52,8 @@ export const useQueryTransactions = () => {
       endDate,
       labelIds,
       searchTerm: debouncedSearchTerm,
-      minAmount,
-      maxAmount,
+      minAmount: debouncedMinAmount,
+      maxAmount: debouncedMaxAmount,
       sortBy,
       sortOrder,
     }),

@@ -1,7 +1,8 @@
 import Providers from "@/components/Providers";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "Gomes Family App",
@@ -19,11 +20,13 @@ export default function RootLayout({
       <head />
       <body>
         <Providers>
-          <Flex>
-            <Sidebar />
-            <main>
+          <Flex height="100vh">
+            <Box flex="1 1 20%">
+              <Sidebar />
+            </Box>
+            <Box flex="4 1 80%" bg="gray.100" p="2rem">
               {children}
-            </main>
+            </Box>
           </Flex>
         </Providers>
       </body>
