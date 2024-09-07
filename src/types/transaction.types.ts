@@ -45,3 +45,7 @@ export interface TransactionFilters {
   sortBy?: SortBy;
   sortOrder?: SortOrder;
 }
+
+export enum StatementUploadType {
+  TangerineCC = "tangerine-cc",
+}
