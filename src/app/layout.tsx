@@ -3,12 +3,10 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import { Box, Flex } from "@chakra-ui/react";
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title: "Gomes Family App",
   description: "An app for the Gomes family",
 };
-
 
 export default function RootLayout({
   children,

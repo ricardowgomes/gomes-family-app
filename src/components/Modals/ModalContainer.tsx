@@ -1,7 +1,16 @@
-'use client';
+"use client";
 
 import { useState } from "react";
-import { IconButton, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Modal, Box } from '@chakra-ui/react';
+import {
+  IconButton,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Modal,
+  Box,
+} from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
 import TransactionForm from "../TransactionForm";
@@ -47,16 +56,14 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         right="4"
         aria-label="open modal"
         colorScheme="teal"
-        icon={<AddIcon color='white' />}
+        icon={<AddIcon color="white" />}
         onClick={() => setIsOpen(true)}
-        size='lg'
+        size="lg"
       />
       <Modal isOpen={isOpen} onClose={onCloseHandler}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {MODAL_TITLES[name]}
-          </ModalHeader>
+          <ModalHeader>{MODAL_TITLES[name]}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Component onSuccess={onCloseHandler} {...modalProps} />
@@ -64,7 +71,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         </ModalContent>
       </Modal>
     </Box>
-  )
-}
+  );
+};
 
 export default ModalContainer;

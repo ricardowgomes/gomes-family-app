@@ -10,7 +10,7 @@ const PageContainer: React.FC<PageContainerProps> = ({ children, heading }) => {
   return (
     <VStack width="100%">
       <Heading>{heading}</Heading>
-      <Divider orientation='horizontal' marginY={4} />
+      <Divider orientation="horizontal" marginY={4} />
       {children}
     </VStack>
   );

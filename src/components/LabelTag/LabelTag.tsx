@@ -5,7 +5,7 @@ import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
 function cuidToNumber(cuid: string): number {
   // Remove any non-alphanumeric characters from the CUID
-  const sanitizedCuid = cuid.replace(/[^a-zA-Z0-9]/g, '');
+  const sanitizedCuid = cuid.replace(/[^a-zA-Z0-9]/g, "");
 
   // Convert the sanitized CUID to a base-36 number
   const number = parseInt(sanitizedCuid, 36);

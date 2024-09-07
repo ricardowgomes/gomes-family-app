@@ -6,7 +6,6 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Tbody, Tr, Td, HStack, IconButton, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 
-
 interface TransactionTableProps {
   transactions: Transaction[];
 }
@@ -40,7 +39,7 @@ export const TableBody: React.FC<TransactionTableProps> = ({
             />
           </Td>
           <Td>${transaction.amount}</Td>
-          <Td>{format(new Date(transaction.date), 'dd/MM/yyyy')}</Td>
+          <Td>{format(new Date(transaction.date), "dd/MM/yyyy")}</Td>
           <Td>
             <VStack>
               {transaction.labelIds &&

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { TableContainer, Table, VStack } from "@chakra-ui/react";
 import { TableBody } from "./TableBody";
@@ -17,11 +17,14 @@ const TransactionTable = () => {
     setMaxAmount,
     setSortBy,
     setSortOrder,
-   } = useQueryTransactions();
+  } = useQueryTransactions();
 
   return (
     <VStack>
-      <SearchBar placeholder="Search for transactions" setSearchTerm={setSearchTerm} />
+      <SearchBar
+        placeholder="Search for transactions"
+        setSearchTerm={setSearchTerm}
+      />
       <TransactionsFilter
         setStartDate={setStartDate}
         setEndDate={setEndDate}

@@ -23,7 +23,11 @@ const LabelSelector: React.FC<LabelSelectorProps> = ({
   onLabelRemoval,
   selectedLabelIds,
 }) => {
-  const { data: labels, excludeIdFromSearch, removeFromExcludedList } = useQueryLabels();
+  const {
+    data: labels,
+    excludeIdFromSearch,
+    removeFromExcludedList,
+  } = useQueryLabels();
   const { addLabel } = useMutateLabel();
   const [selectedValue, setSelectedValue] = useState(null);
 
@@ -71,7 +75,10 @@ const LabelSelector: React.FC<LabelSelectorProps> = ({
         placeholder="Select or create a label"
         className={styles.selector}
       />
-      <SelectedLabels labelIds={selectedLabelIds} handleRemoveLabel={handleRemoveLabel} />
+      <SelectedLabels
+        labelIds={selectedLabelIds}
+        handleRemoveLabel={handleRemoveLabel}
+      />
     </VStack>
   );
 };

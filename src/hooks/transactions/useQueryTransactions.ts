@@ -7,29 +7,27 @@ import { SortBy, SortOrder } from "@/types";
 
 export const useQueryTransactions = () => {
   const { transactionService } = useServices();
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   const [labelIds, setLabelIds] = useState<string[]>([]);
   const [searchTerm, debouncedSearchTerm, setSearchTerm] = useDebounce<string>(
     "",
     300,
   );
-  const [minAmount, debouncedMinAmount, setMinAmount] = useDebounce<number | null>(
-    null,
-    500,
-  );
-  const [maxAmount, debouncedMaxAmount, setMaxAmount] = useDebounce<number | null>(
-    null,
-    500,
-  );
+  const [minAmount, debouncedMinAmount, setMinAmount] = useDebounce<
+    number | null
+  >(null, 500);
+  const [maxAmount, debouncedMaxAmount, setMaxAmount] = useDebounce<
+    number | null
+  >(null, 500);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DATE);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.DESC);
 
   const clearFilters = () => {
-    setStartDate('');
-    setEndDate('');
+    setStartDate("");
+    setEndDate("");
     setLabelIds([]);
-    setSearchTerm('');
+    setSearchTerm("");
     setMinAmount(null);
     setMaxAmount(null);
     setSortBy(SortBy.DATE);
@@ -47,17 +45,18 @@ export const useQueryTransactions = () => {
       sortBy,
       sortOrder,
     }),
-    queryFn: async () => transactionService.getAll({
-      startDate,
-      endDate,
-      labelIds,
-      searchTerm: debouncedSearchTerm,
-      minAmount: debouncedMinAmount,
-      maxAmount: debouncedMaxAmount,
-      sortBy,
-      sortOrder,
-    }),
-  })
+    queryFn: async () =>
+      transactionService.getAll({
+        startDate,
+        endDate,
+        labelIds,
+        searchTerm: debouncedSearchTerm,
+        minAmount: debouncedMinAmount,
+        maxAmount: debouncedMaxAmount,
+        sortBy,
+        sortOrder,
+      }),
+  });
 
   return {
     ...transactionsQuery,
