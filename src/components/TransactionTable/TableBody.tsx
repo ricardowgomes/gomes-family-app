@@ -3,7 +3,9 @@ import LabelTag from "@/components/Labels/LabelTag/LabelTag";
 import { useMutateTransaction } from "@/hooks/transactions";
 import { Transaction } from "@/types";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Tbody, Tr, Td, HStack, IconButton } from "@chakra-ui/react";
+import { Tbody, Tr, Td, HStack, IconButton, VStack } from "@chakra-ui/react";
+import { format } from "date-fns";
+
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -23,8 +25,8 @@ export const TableBody: React.FC<TransactionTableProps> = ({
 
   return (
     <Tbody>
-      {transactions.map((transaction, index) => (
-        <Tr key={index}>
+      {transactions.map((transaction) => (
+        <Tr key={transaction.id}>
           <Td>{transaction.transactionType}</Td>
           <Td>
             <EditableField
@@ -38,18 +40,18 @@ export const TableBody: React.FC<TransactionTableProps> = ({
             />
           </Td>
           <Td>${transaction.amount}</Td>
-          <Td>{transaction.date.toString()}</Td>
+          <Td>{format(new Date(transaction.date), 'dd/MM/yyyy')}</Td>
           <Td>
-            <HStack>
+            <VStack>
               {transaction.labelIds &&
-                transaction.labelIds.map((label) => (
+                transaction.labelIds.map((labelId) => (
                   <LabelTag
-                    key={label.id}
-                    label={label}
-                    onCloseClick={() => onLabelClose(transaction.id, label.id)}
+                    key={labelId}
+                    labelId={labelId}
+                    onCloseClick={() => onLabelClose(transaction.id, labelId)}
                   />
                 ))}
-            </HStack>
+            </VStack>
           </Td>
           <Td>
             <IconButton

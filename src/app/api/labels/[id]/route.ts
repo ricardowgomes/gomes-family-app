@@ -2,6 +2,22 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
+export async function GET(_request: Request, context: { params: { id: string } }) {
+  const id = context.params.id;
+
+  try {
+    const label = await prisma.label.findUnique({
+      where: {
+        id
+      }
+    });
+
+    return Response.json(label);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function DELETE(request: Request, context: { params: { id: string } }) {
   const id = context.params.id;
 

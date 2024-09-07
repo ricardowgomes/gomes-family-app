@@ -1,6 +1,7 @@
 import { NewTransaction, PartialTransaction, Transaction, TransactionFilters } from "@/types";
 import axios from "axios";
 import { BaseService } from "./base.service";
+import { BASE_URL } from "@/constants";
 
 export class TransactionService extends BaseService {
   private baseUrl: string;
@@ -8,7 +9,7 @@ export class TransactionService extends BaseService {
   constructor() {
     super();
 
-    this.baseUrl = `/api/transactions`;
+    this.baseUrl = `${BASE_URL}/api/transactions`;
   }
 
   getAll = async (args: TransactionFilters): Promise<Transaction[]> => {

@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { labelsKeys } from "./labelsKeys";
 import { useServices } from "../useServices";
 
-export const useQueryLabel = (id: number) => {
+export const useQueryLabel = (id: string) => {
   const { labelService } = useServices();
 
   return useSuspenseQuery({

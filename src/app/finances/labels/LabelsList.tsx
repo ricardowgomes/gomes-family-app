@@ -19,6 +19,8 @@ const LabelsList = () => {
   const { data: labels, setSearchTerm } = useQueryLabels();
   const { removeLabel, updateLabel } = useMutateLabel();
 
+  console.log('LabelsList labels', labels);
+
   return (
     <div>
      <SearchBar placeholder="search for labels" setSearchTerm={setSearchTerm} />

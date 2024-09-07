@@ -1,5 +1,3 @@
-import { Label } from "./label.types";
-
 export enum TransactionType {
   EXPENSE = "expense",
   INCOME = "income",
@@ -10,10 +8,12 @@ export interface BaseTransaction {
   name: string;
   amount: number;
   date: string;
-  labelIds?: Label[];
+  labelIds?: string[];
 }
 
-export type NewTransaction = BaseTransaction;
+export interface NewTransaction extends BaseTransaction {
+  labelIds: string[];
+}
 
 export interface Transaction extends BaseTransaction {
   id: string;
@@ -23,6 +23,16 @@ export type PartialTransaction = Partial<Transaction>;
 
 export interface UpdateTransaction {}
 
+export enum SortOrder {
+  ASC = "asc",
+  DESC = "desc",
+}
+
+export enum SortBy {
+  DATE = "date",
+  AMOUNT = "amount",
+}
+
 export interface TransactionFilters {
   searchTerm?: string;
   labelIds?: string[];
@@ -30,4 +40,6 @@ export interface TransactionFilters {
   endDate?: string;
   minAmount?: number | null;
   maxAmount?: number | null;
+  sortBy?: SortBy;
+  sortOrder?: SortOrder;
 }

@@ -20,7 +20,7 @@ export class BaseService {
   // Helper method to append parameters based on value type
   private appendParam(params: URLSearchParams, key: string, value: any): void {
     if (Array.isArray(value)) {
-      value.forEach(item => params.append(key, item.toString()));
+      params.append(key, value.join(','));
     } else if (typeof value === 'string' || typeof value === 'number') {
       params.append(key, value.toString());
     } else if (value instanceof Date) {

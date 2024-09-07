@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { labelsKeys } from "./labelsKeys";
 import { useServices } from "../useServices";
 import { useState } from "react";
@@ -12,14 +12,13 @@ export const useQueryLabels = () => {
   );
   const [excludedIds, setExcludedIds] = useState<string[]>([]);
 
-  const queryRequest = useQuery({
+  const queryRequest = useSuspenseQuery({
     queryKey: labelsKeys.search(debouncedSearchTerm, excludedIds),
     queryFn: async () =>
       labelService.getAll({
         excludedIds,
-        searchTerm,
+        searchTerm: debouncedSearchTerm,
       }),
-    initialData: [],
   });
 
   const excludeIdFromSearch = (id: string) =>

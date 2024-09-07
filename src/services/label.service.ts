@@ -1,6 +1,7 @@
 import { Label, LabelQueryParams, NewLabel } from "@/types";
 import axios from "axios";
 import { BaseService } from "./base.service";
+import { BASE_URL } from "@/constants";
 
 export class LabelService extends BaseService {
   private baseUrl: string;
@@ -8,7 +9,7 @@ export class LabelService extends BaseService {
   constructor() {
     super();
 
-    this.baseUrl = `/api/labels`;
+    this.baseUrl = `${BASE_URL}/api/labels`;
   }
 
   getAll = async (args: LabelQueryParams): Promise<Label[]> => {
@@ -41,7 +42,7 @@ export class LabelService extends BaseService {
     }
   };
 
-  getOne = async (id: number) => {
+  getOne = async (id: string) => {
     try {
       const response = await axios.get(`${this.baseUrl}/${id}`);
       return response.data;

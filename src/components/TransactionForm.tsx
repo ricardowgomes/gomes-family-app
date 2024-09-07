@@ -40,17 +40,22 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
     onSuccess();
   };
 
-  const handleSelectLabel = (label: Label) => {
-    setTransaction((prev) => ({
-      ...prev,
-      labels: prev.labelIds ? [...prev.labelIds, label.id] : [label.id],
-    }));
+  const handleSelectLabel = (labelId: string) => {
+    setTransaction((prev) => {
+      if (prev.labelIds.includes(labelId)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        labelIds: [...prev.labelIds, labelId],
+      };
+    });
   };
 
   const handleRemoveLabel = (labelId: string) => {
     setTransaction((prev) => ({
       ...prev,
-      labels: prev.labelIds?.filter((label) => label.id !== labelId),
+      labels: prev.labelIds?.filter((id) => id !== labelId),
     }));
   };
 
@@ -61,7 +66,7 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <FormControl id="type" isRequired>
             <FormLabel>Type</FormLabel>
             <Select
-              name="category"
+              name="transactionType"
               value={transaction.transactionType}
               onChange={handleChange}
             >
@@ -108,11 +113,11 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <LabelSelector selectLabel={handleSelectLabel} />
 
           <HStack>
-            {transaction.labelIds?.map((label, index) => (
+            {transaction.labelIds?.map((id) => (
               <LabelTag
-                key={`${label.id}-${index}`}
-                label={label}
-                onCloseClick={() => handleRemoveLabel(label.id)}
+                key={id}
+                labelId={id}
+                onCloseClick={() => handleRemoveLabel(id)}
               />
             ))}
           </HStack>

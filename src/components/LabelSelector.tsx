@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import { useMutateLabel, useQueryLabels } from "@/hooks/labels";
-import { Label } from "@/types";
 import { SingleValue } from "react-select";
 
 interface LabelSelectorProps {
-  selectLabel: (label: Label) => void;
+  selectLabel: (labelId: string) => void;
 }
 
 interface SelectOption {
@@ -23,10 +22,7 @@ export const LabelSelector: React.FC<LabelSelectorProps> = ({
   const handleSelect = (selectedOption: SingleValue<SelectOption>) => {
     if (selectedOption) {
       excludeIdFromSearch(selectedOption.value);
-      selectLabel({
-        id: selectedOption.value,
-        name: selectedOption.label,
-      });
+      selectLabel(selectedOption.value);
       setTimeout(() => setSelectedValue(null), 10);
     }
   };
