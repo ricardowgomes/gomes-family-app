@@ -6,10 +6,11 @@ import { AddIcon } from "@chakra-ui/icons";
 
 import TransactionForm from "../TransactionForm";
 import { ModalTypes } from "@/constants";
+import NewLabelForm from "../NewLabelForm/NewLabelForm";
 
 const MODAL_COMPONENTS = {
   [ModalTypes.ADD_TRANSACTION]: TransactionForm,
-  [ModalTypes.ADD_LABEL]: TransactionForm,
+  [ModalTypes.ADD_LABEL]: NewLabelForm,
 };
 
 const MODAL_TITLES = {
