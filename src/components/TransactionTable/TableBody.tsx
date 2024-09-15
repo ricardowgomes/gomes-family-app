@@ -1,20 +1,22 @@
-import EditableField from "@/components/EditableField/EditableField";
+'use client';
+
 import LabelTag from "@/components/LabelTag/LabelTag";
 import { useMutateTransaction } from "@/hooks/transactions";
 import { Transaction } from "@/types";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Tbody, Tr, Td, IconButton, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 
 interface TransactionTableProps {
   transactions: Transaction[];
+  editTransaction: (transactionId: string) => void;
 }
 
 export const TableBody: React.FC<TransactionTableProps> = ({
   transactions,
+  editTransaction,
 }) => {
-  const { updateTransaction, removeTransaction, removeLabelFromTransaction } =
-    useMutateTransaction();
+  const { removeTransaction, removeLabelFromTransaction } = useMutateTransaction();
 
   const onLabelClose = (transactionId: string, labelId: string) => {
     removeLabelFromTransaction.mutate({
@@ -28,17 +30,7 @@ export const TableBody: React.FC<TransactionTableProps> = ({
       {transactions.map((transaction) => (
         <Tr key={transaction.id}>
           <Td>{transaction.transactionType}</Td>
-          <Td>
-            <EditableField
-              defaultValue={transaction.name}
-              onSubmit={(value: string) =>
-                updateTransaction.mutate({
-                  id: transaction.id,
-                  name: value,
-                })
-              }
-            />
-          </Td>
+          <Td>{transaction.name}</Td>
           <Td>${transaction.amount}</Td>
           <Td>{format(new Date(transaction.date), "dd/MM/yyyy")}</Td>
           <Td>
@@ -52,6 +44,16 @@ export const TableBody: React.FC<TransactionTableProps> = ({
                   />
                 ))}
             </VStack>
+          </Td>
+          <Td>
+            <IconButton
+              aria-label="update transaction"
+              variant="outline"
+              onClick={() => editTransaction(transaction.id)}
+              colorScheme="teal"
+              icon={<EditIcon />}
+              size="sm"
+            />
           </Td>
           <Td>
             <IconButton

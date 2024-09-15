@@ -1,13 +1,18 @@
 "use client";
 
-import { TableContainer, Table, VStack } from "@chakra-ui/react";
+import { TableContainer, Table, VStack, Text } from "@chakra-ui/react";
 import { TableBody } from "./TableBody";
 import { TableHead } from "./TableHead";
 import { useQueryTransactions } from "@/hooks/transactions";
 import SearchBar from "../SearchBar/SearchBar";
 import TransactionsFilter from "./TransactionsFilter";
+import { useState } from "react";
+import UpdateTransactionForm from "../TransactionForm/UpdateTransactionForm";
+import NewTransactionForm from "../TransactionForm/NewTransactionForm";
 
 const TransactionTable = () => {
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+  const [activeTransactionId, setActiveTransactionId] = useState<string | null>(null);
   const {
     data: transactions,
     setSearchTerm,
@@ -19,8 +24,18 @@ const TransactionTable = () => {
     setSortOrder,
   } = useQueryTransactions();
 
+  const editTransaction = (transactionId: string) => {
+    setActiveTransactionId(transactionId);
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setIsUpdateModalOpen(false);
+    setActiveTransactionId(null);
+  };
+
   return (
-    <VStack>
+    <VStack width='100%'>
       <SearchBar
         placeholder="Search for transactions"
         setSearchTerm={setSearchTerm}
@@ -33,12 +48,30 @@ const TransactionTable = () => {
         setSortBy={setSortBy}
         setSortOrder={setSortOrder}
       />
-      <TableContainer>
-        <Table variant="simple">
-          <TableHead />
-          <TableBody transactions={transactions} />
-        </Table>
-      </TableContainer>
+      {
+        transactions.length > 0 ? (
+          <TableContainer width='100%'>
+            <Table variant="simple">
+              <TableHead />
+              <TableBody transactions={transactions} editTransaction={editTransaction} />
+            </Table>
+          </TableContainer>
+        ) : (
+          <Text>
+            No transactions found, adjust the filters or create a new transaction.
+          </Text>
+        )
+      }
+      {
+        activeTransactionId && (
+          <UpdateTransactionForm
+            isOpen={isUpdateModalOpen}
+            handleClose={handleCloseUpdateModal}
+            transactionId={activeTransactionId}
+          />
+        )
+      }
+      <NewTransactionForm />
     </VStack>
   );
 };

@@ -14,19 +14,11 @@ import {
 import { useMutateTransaction } from "@/hooks/transactions";
 import { useQueryLabels } from "@/hooks/labels";
 import LabelSelector from "../LabelSelector/LabelSelector";
+import ModalWithButton from "../Modals/ModalWithButton";
 
-type TransactionFormProps = {
-  initialTransaction?: NewTransaction;
-  onSuccess: () => void;
-};
-
-const TransactionForm = ({
-  initialTransaction,
-  onSuccess,
-}: TransactionFormProps) => {
-  const { addTransaction, updateTransaction } = useMutateTransaction();
-  const [transaction, setTransaction] = useState<NewTransaction>(
-    initialTransaction || {
+const NewTransactionForm = () => {
+  const { addTransaction } = useMutateTransaction();
+  const [transaction, setTransaction] = useState<NewTransaction>({
       transactionType: TransactionType.EXPENSE,
       name: "",
       amount: 0,
@@ -48,12 +40,7 @@ const TransactionForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (initialTransaction) {
-      updateTransaction.mutate(transaction);
-    } else {
-      addTransaction.mutate(transaction);
-    }
-    onSuccess();
+    addTransaction.mutate(transaction);
   };
 
   const onLabelSelection = (labelId: string) => {
@@ -77,6 +64,7 @@ const TransactionForm = ({
   };
 
   return (
+    <ModalWithButton heading="New transaction">
     <Box maxW="md" mx="auto" mt={4} p={4} borderWidth={1} borderRadius="md">
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
@@ -134,12 +122,13 @@ const TransactionForm = ({
           />
 
           <Button colorScheme="teal" type="submit">
-            {initialTransaction ? "Update" : "Submit"}
+            Submit
           </Button>
         </Stack>
       </form>
     </Box>
+    </ModalWithButton>
   );
 };
 
-export default TransactionForm;
+export default NewTransactionForm;

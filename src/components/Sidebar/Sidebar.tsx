@@ -54,10 +54,10 @@ const Sidebar = () => {
     <Box
       as="nav"
       p={4}
-      w="100%"
+      width='100%'
+      height='100%'
       borderRight="1px"
       borderColor="gray.200"
-      h="100vh"
       bg="teal"
     >
       <List spacing={3}>

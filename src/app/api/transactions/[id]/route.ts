@@ -1,3 +1,4 @@
+import { getTransactionById } from "@/helpers/db";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -32,10 +33,22 @@ export async function PUT(
       where: {
         id,
       },
-      data,
+      data
     });
     return Response.json(updatedTransaction);
   } catch (error) {
     return Promise.reject(error);
+  }
+}
+
+export async function GET(
+  _request: Request,
+  context: { params: { id: string } },
+) {
+  try {
+    const transaction = await getTransactionById(context.params.id)
+    return Response.json(transaction);
+  } catch (error) {
+    return Response.error();
   }
 }

@@ -48,6 +48,8 @@ export class TransactionService extends BaseService {
 
   getOne = async (id: string) => {
     try {
+      console.log("TransactionService: getOne", id);
+      console.log("TransactionService: getOne", this.baseUrl);
       const response = await axios.get(`${this.baseUrl}/${id}`);
       return response.data;
     } catch (error) {

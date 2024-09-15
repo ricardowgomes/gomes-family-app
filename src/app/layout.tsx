@@ -18,11 +18,11 @@ export default function RootLayout({
       <head />
       <body>
         <Providers>
-          <Flex height="100vh">
-            <Box flex="1 1 20%">
+          <Flex minHeight='100vh'>
+            <Box width={250}>
               <Sidebar />
             </Box>
-            <Box flex="4 1 80%" bg="gray.100" p="2rem">
+            <Box width='100%' bg="gray.100" p="2rem">
               {children}
             </Box>
           </Flex>

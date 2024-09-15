@@ -1,3 +1,5 @@
+'use client';
+
 import { useMutateLabel } from "@/hooks/labels";
 import {
   Box,
@@ -9,12 +11,10 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import ModalWithButton from "../Modals/ModalWithButton";
 
-interface NewLabelFormProps {
-  onSuccess: () => void;
-}
 
-export default function NewLabelForm({ onSuccess }: NewLabelFormProps) {
+export default function NewLabelForm() {
   const { addLabel } = useMutateLabel();
   const [name, setName] = useState<string>("");
 
@@ -22,33 +22,33 @@ export default function NewLabelForm({ onSuccess }: NewLabelFormProps) {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (onSuccess) onSuccess();
     addLabel.mutate({ name });
   };
 
   return (
-    <Box padding={4}>
-      <form onSubmit={onSubmit}>
-        <FormControl isInvalid={isError}>
-          <Input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          {!isError ? (
-            <FormHelperText>Enter the new label name.</FormHelperText>
-          ) : (
-            <FormErrorMessage>Cannot not be empty</FormErrorMessage>
-          )}
-        </FormControl>
+    <ModalWithButton heading="New label">
+      <Box padding={4}>
+        <form onSubmit={onSubmit}>
+          <FormControl isInvalid={isError}>
+            <Input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            {!isError ? (
+              <FormHelperText>Enter the new label name.</FormHelperText>
+            ) : (
+              <FormErrorMessage>Cannot not be empty</FormErrorMessage>
+            )}
+          </FormControl>
 
-        <Divider orientation="horizontal" marginY={4} />
+          <Divider orientation="horizontal" marginY={4} />
 
-        <Button colorScheme="teal" type="submit">
-          Submit
-        </Button>
-      </form>
-    </Box>
+          <Button colorScheme="teal" type="submit">
+            Submit
+          </Button>
+        </form>
+      </Box>
+    </ModalWithButton>
   );
 }
