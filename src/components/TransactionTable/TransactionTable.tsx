@@ -1,6 +1,6 @@
 "use client";
 
-import { TableContainer, Table, VStack, Text } from "@chakra-ui/react";
+import { TableContainer, Table, VStack, Text, TableCaption } from "@chakra-ui/react";
 import { TableBody } from "./TableBody";
 import { TableHead } from "./TableHead";
 import { useQueryTransactions } from "@/hooks/transactions";
@@ -14,7 +14,7 @@ const TransactionTable = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [activeTransactionId, setActiveTransactionId] = useState<string | null>(null);
   const {
-    data: transactions,
+    data,
     setSearchTerm,
     setStartDate,
     setEndDate,
@@ -23,6 +23,13 @@ const TransactionTable = () => {
     setSortBy,
     setSortOrder,
   } = useQueryTransactions();
+
+  const {
+    transactions,
+    count,
+    totalAmount,
+    totalPages,
+  } = data;
 
   const editTransaction = (transactionId: string) => {
     setActiveTransactionId(transactionId);
@@ -52,6 +59,9 @@ const TransactionTable = () => {
         transactions.length > 0 ? (
           <TableContainer width='100%'>
             <Table variant="simple">
+              <TableCaption>
+                {`Showing ${transactions.length} of ${count} transactions. Total amount: ${totalAmount}. Page 1 of ${totalPages}`}
+              </TableCaption>
               <TableHead />
               <TableBody transactions={transactions} editTransaction={editTransaction} />
             </Table>

@@ -1,8 +1,8 @@
 import {
+  LastTransactions,
   NewTransaction,
   PartialTransaction,
   StatementUploadType,
-  Transaction,
   TransactionFilters,
 } from "@/types";
 import axios from "axios";
@@ -18,7 +18,7 @@ export class TransactionService extends BaseService {
     this.baseUrl = `${BASE_URL}/api/transactions`;
   }
 
-  getAll = async (args: TransactionFilters): Promise<Transaction[]> => {
+  getAll = async (args: TransactionFilters): Promise<LastTransactions> => {
     try {
       const params = this.toSearchParams(args);
       const response = await axios.get(this.baseUrl, { params });

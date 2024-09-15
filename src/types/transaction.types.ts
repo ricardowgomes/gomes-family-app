@@ -45,3 +45,10 @@ export interface TransactionFilters {
   sortBy?: SortBy;
   sortOrder?: SortOrder;
 }
+
+export interface LastTransactions {
+  transactions: Transaction[];
+  count: number;
+  totalAmount: number;
+  totalPages: number;
+}

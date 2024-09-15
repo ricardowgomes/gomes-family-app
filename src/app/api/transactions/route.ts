@@ -1,68 +1,31 @@
+import { buildFilters, fetchTransactions, getValidSortField, parseQueryParams } from "@/helpers/db";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// Route handler: GET
 export async function GET(request: Request) {
   try {
-    const query = new URL(request.url).searchParams;
-    const queryObj = Object.fromEntries(query.entries());
+    const queryParams = parseQueryParams(request);
+    const filters = buildFilters(queryParams);
+    const sortBy = getValidSortField(queryParams.sortBy);
+    const skip = (queryParams.pageNumber - 1) * queryParams.limitNumber;
+    const take = queryParams.limitNumber;
 
-    const {
-      transactionType = "",
-      searchTerm = "",
-      labelIds = "",
-      startDate,
-      endDate,
-      minAmount,
-      maxAmount,
-      sortBy = "date",
-      sortOrder = "desc",
-    } = queryObj;
-
-    // Convert labelIds to array, default to empty array if not provided
-    const labelsArray = labelIds ? labelIds.split(",") : [];
-
-    // Parse minAmount and maxAmount
-    const minAmountNumber = minAmount ? parseFloat(minAmount) : undefined;
-    const maxAmountNumber = maxAmount ? parseFloat(maxAmount) : undefined;
-
-    // Construct filters
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const filters: any = {
-      AND: [
-        searchTerm
-          ? { name: { contains: searchTerm, mode: "insensitive" } }
-          : undefined,
-        transactionType ? { transactionType } : undefined,
-        labelsArray.length > 0
-          ? { labels: { some: { id: { in: labelsArray } } } }
-          : undefined,
-        startDate ? { date: { gte: new Date(startDate) } } : undefined,
-        endDate ? { date: { lte: new Date(endDate) } } : undefined,
-        minAmountNumber !== undefined
-          ? { amount: { gte: minAmountNumber } }
-          : undefined,
-        maxAmountNumber !== undefined
-          ? { amount: { lte: maxAmountNumber } }
-          : undefined,
-      ].filter(Boolean),
-    };
-
-    // Ensure valid sortBy field
-    const validSortFields = ["date", "amount", "name", "transactionType"];
-    const orderByField = validSortFields.includes(sortBy) ? sortBy : "date";
-
-    const transactions = await prisma.transaction.findMany({
-      where: filters,
-      orderBy: {
-        [orderByField]: sortOrder,
-      },
-      include: {
-        labels: true,
-      },
+    const { transactions, totalAmount, count } = await fetchTransactions({
+      filters,
+      sortBy,
+      sortOrder: queryParams.sortOrder,
+      skip,
+      take,
     });
 
-    return Response.json(transactions);
+    return Response.json({
+        transactions,
+        count,
+        totalAmount,
+        totalPages: Math.ceil(count / queryParams.limitNumber),
+      });
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
       status: 500,
