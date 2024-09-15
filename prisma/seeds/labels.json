@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ckxj1zhs1000001p78s5f4a1z",
+    "name": "Groceries"
+  },
+  {
+    "id": "ckxj1zhs2000001p78s5f4a2a",
+    "name": "Subscriptions"
+  },
+  {
+    "id": "ckxj1zhs3000001p78s5f4a3b",
+    "name": "No Category"
+  },
+  {
+    "id": "ckxj1zhs4000001p78s5f4a4c",
+    "name": "Utilities"
+  },
+  {
+    "id": "ckxj1zhs5000001p78s5f4a5d",
+    "name": "Shopping"
+  },
+  {
+    "id": "ckxj1zhs6000001p78s5f4a6e",
+    "name": "Education"
+  },
+  {
+    "id": "ckxj1zhs7000001p78s5f4a7f",
+    "name": "Visa"
+  },
+  {
+    "id": "ckxj1zhs8000001p78s5f4a8g",
+    "name": "Gifts"
+  },
+  {
+    "id": "ckxj1zhs9000001p78s5f4a9h",
+    "name": "Bill Payment"
+  },
+  {
+    "id": "ckxj1zhsa000001p78s5f4aai",
+    "name": "Home Improvement"
+  },
+  {
+    "id": "ckxj1zhsb000001p78s5f4abj",
+    "name": "Gas"
+  },
+  {
+    "id": "ckxj1zhsc000001p78s5f4ack",
+    "name": "Drug Store"
+  },
+  {
+    "id": "ckxj1zhsd000001p78s5f4adl",
+    "name": "Restaurant"
+  },
+  {
+    "id": "ckxj1zhse000001p78s5f4aem",
+    "name": "Entertainment"
+  },
+  {
+    "id": "ckxj1zhsf000001p78s5f4afn",
+    "name": "Travel"
+  },
+  {
+    "id": "ckxj1zhsg000001p78s5f4afo",
+    "name": "Taxes"
+  },
+  {
+    "id": "ckxj1zhsh000001p78s5f4afp",
+    "name": "Self-care"
+  },
+  {
+    "id": "ckxj1zhsi000001p78s5f4afq",
+    "name": "Health"
+  },
+  {
+    "id": "ckxj1zhsj000001p78s5f4afr",
+    "name": "Furniture"
+  },
+  {
+    "id": "ckxj1zhsk000001p78s5f4afs",
+    "name": "Car Maintenance"
+  }
+]

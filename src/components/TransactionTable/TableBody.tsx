@@ -3,7 +3,7 @@ import LabelTag from "@/components/LabelTag/LabelTag";
 import { useMutateTransaction } from "@/hooks/transactions";
 import { Transaction } from "@/types";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Tbody, Tr, Td, HStack, IconButton, VStack } from "@chakra-ui/react";
+import { Tbody, Tr, Td, IconButton, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 
 interface TransactionTableProps {

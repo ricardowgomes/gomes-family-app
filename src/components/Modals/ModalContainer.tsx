@@ -1,29 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import {
-  IconButton,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Modal,
-  Box,
-} from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
-import TransactionForm from "../TransactionForm";
-import { ModalTypes } from "@/constants";
 import NewLabelForm from "../NewLabelForm/NewLabelForm";
+import Modal from "./Modal";
+import { Box, IconButton } from "@chakra-ui/react";
+
+export enum ModalTypes {
+  ADD_LABEL = "ADD_LABEL",
+}
 
 const MODAL_COMPONENTS = {
-  [ModalTypes.ADD_TRANSACTION]: TransactionForm,
   [ModalTypes.ADD_LABEL]: NewLabelForm,
 };
 
 const MODAL_TITLES = {
-  [ModalTypes.ADD_TRANSACTION]: "New transaction",
   [ModalTypes.ADD_LABEL]: "New label",
 };
 
@@ -60,15 +52,12 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         onClick={() => setIsOpen(true)}
         size="lg"
       />
-      <Modal isOpen={isOpen} onClose={onCloseHandler}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{MODAL_TITLES[name]}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Component onSuccess={onCloseHandler} {...modalProps} />
-          </ModalBody>
-        </ModalContent>
+      <Modal
+        isOpen={isOpen}
+        onClose={onCloseHandler}
+        heading={MODAL_TITLES[name]}
+      >
+        <Component onSuccess={onCloseHandler} {...modalProps} />
       </Modal>
     </Box>
   );

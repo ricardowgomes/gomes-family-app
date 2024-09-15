@@ -1,6 +1,7 @@
 import {
   NewTransaction,
   PartialTransaction,
+  StatementUploadType,
   Transaction,
   TransactionFilters,
 } from "@/types";
@@ -78,6 +79,24 @@ export class TransactionService extends BaseService {
       });
       return response.data;
     } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  upload = async (type: StatementUploadType, data: unknown[]) => {
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/upload/${type}`,
+        { data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      console.log("TransactionService: Error uploading file", error);
       return Promise.reject(error);
     }
   };

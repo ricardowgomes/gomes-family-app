@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from "react";
 import { type NewTransaction, TransactionType } from "@/types";
 import {
@@ -10,18 +12,28 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useMutateTransaction } from "@/hooks/transactions";
-import LabelSelector from "./LabelSelector/LabelSelector";
 import { useQueryLabels } from "@/hooks/labels";
+import LabelSelector from "../LabelSelector/LabelSelector";
 
-const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const { addTransaction } = useMutateTransaction();
-  const [transaction, setTransaction] = useState<NewTransaction>({
-    transactionType: TransactionType.EXPENSE,
-    name: "",
-    amount: 0,
-    date: new Date().toISOString(),
-    labelIds: [],
-  });
+type TransactionFormProps = {
+  initialTransaction?: NewTransaction;
+  onSuccess: () => void;
+};
+
+const TransactionForm = ({
+  initialTransaction,
+  onSuccess,
+}: TransactionFormProps) => {
+  const { addTransaction, updateTransaction } = useMutateTransaction();
+  const [transaction, setTransaction] = useState<NewTransaction>(
+    initialTransaction || {
+      transactionType: TransactionType.EXPENSE,
+      name: "",
+      amount: 0,
+      date: new Date().toISOString(),
+      labelIds: [],
+    },
+  );
   const { removeFromExcludedList } = useQueryLabels();
 
   const handleChange = (
@@ -36,7 +48,11 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addTransaction.mutate(transaction);
+    if (initialTransaction) {
+      updateTransaction.mutate(transaction);
+    } else {
+      addTransaction.mutate(transaction);
+    }
     onSuccess();
   };
 
@@ -118,7 +134,7 @@ const TransactionForm = ({ onSuccess }: { onSuccess: () => void }) => {
           />
 
           <Button colorScheme="teal" type="submit">
-            Submit
+            {initialTransaction ? "Update" : "Submit"}
           </Button>
         </Stack>
       </form>

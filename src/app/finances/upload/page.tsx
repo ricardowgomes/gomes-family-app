@@ -1,28 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import PageContainer from "@/layouts/PageContainer";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Select,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Select, Stack, Text, useToast } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
-import { useState } from "react";
 import { AttachmentIcon } from "@chakra-ui/icons";
-import { NewTransaction, StatementUploadType } from "@/types";
-import LabelSelector from "@/components/LabelSelector/LabelSelector";
+import Papa from "papaparse";
+import { StatementUploadType } from "@/types";
+import { useServices } from "@/hooks/useServices";
 
 export default function Upload() {
   const toast = useToast();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [type, setType] = useState<string>("");
-  const [labels, setLabels] = useState<NewTransaction["labelIds"]>([]);
+  const [type, setType] = useState<StatementUploadType>(
+    StatementUploadType.TangerineCC,
+  );
+  const { transactionService } = useServices();
 
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -44,17 +37,52 @@ export default function Upload() {
     },
   });
 
-  const onLabelSelection = (labelId: string) => {
-    setLabels((prev) => {
-      if (prev.includes(labelId)) {
-        return prev;
-      }
-      return [...prev, labelId];
-    });
-  };
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      toast({
+        title: "No file selected.",
+        description: "Please select a file to upload.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
 
-  const onLabelRemoval = (labelId: string) => {
-    setLabels((prev) => prev.filter((id) => id !== labelId));
+    // Read and parse the CSV file
+    const reader = new FileReader();
+    reader.onload = async () => {
+      if (reader.result) {
+        Papa.parse(reader.result as string, {
+          header: true,
+          complete: async (results) => {
+            try {
+              // Use the updated upload function from transactionService
+              await transactionService.upload(type, results.data);
+
+              toast({
+                title: "Form submitted.",
+                description: "The form has been submitted.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            } catch (error) {
+              console.error("Error:", error);
+              toast({
+                title: "Error uploading file.",
+                description: "There was an error uploading the file.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+              });
+            }
+          },
+        });
+      }
+    };
+
+    reader.readAsText(selectedFile);
   };
 
   return (
@@ -89,42 +117,21 @@ export default function Upload() {
           </Box>
 
           {/* Type Selector */}
-          <FormControl>
-            <FormLabel htmlFor="type">Type</FormLabel>
-            <Select
-              id="type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              placeholder="Select type"
-            >
-              {Object.entries(StatementUploadType).map(([key, value]) => (
-                <option key={key} value={key}>
-                  {value}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-
-          {/* Labels Selector */}
-          <LabelSelector
-            onLabelSelection={onLabelSelection}
-            onLabelRemoval={onLabelRemoval}
-            selectedLabelIds={labels}
-          />
+          <Select
+            id="type"
+            value={type}
+            onChange={(e) => setType(e.target.value as StatementUploadType)}
+            placeholder="Select type of statement"
+          >
+            {Object.entries(StatementUploadType).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </Select>
 
           {/* Submit Button */}
-          <Button
-            colorScheme="teal"
-            onClick={() =>
-              toast({
-                title: "Form submitted.",
-                description: "The form has been submitted.",
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-              })
-            }
-          >
+          <Button colorScheme="teal" onClick={handleUpload}>
             Upload
           </Button>
         </Stack>

@@ -27,6 +27,7 @@ export async function GET(request: Request) {
     const maxAmountNumber = maxAmount ? parseFloat(maxAmount) : undefined;
 
     // Construct filters
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {
       AND: [
         searchTerm

@@ -73,11 +73,14 @@ const Sidebar = () => {
         </SidebarItem>
         <Collapse in={isOpenFinances}>
           <List pl={4}>
-            <SidebarItem href="/finances" isExpanded={false}>
+            <SidebarItem href="/finances/transactions" isExpanded={false}>
               <Text>Transactions</Text>
             </SidebarItem>
             <SidebarItem href="/finances/labels" isExpanded={false}>
               <Text>Labels</Text>
+            </SidebarItem>
+            <SidebarItem href="/finances/upload" isExpanded={false}>
+              <Text>Upload transactions</Text>
             </SidebarItem>
           </List>
         </Collapse>
