@@ -54,8 +54,8 @@ const Sidebar = () => {
     <Box
       as="nav"
       p={4}
-      width='100%'
-      height='100%'
+      width="100%"
+      height="100%"
       borderRight="1px"
       borderColor="gray.200"
       bg="teal"

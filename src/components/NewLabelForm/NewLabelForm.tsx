@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useMutateLabel } from "@/hooks/labels";
 import {
@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import ModalWithButton from "../Modals/ModalWithButton";
-
 
 export default function NewLabelForm() {
   const { addLabel } = useMutateLabel();

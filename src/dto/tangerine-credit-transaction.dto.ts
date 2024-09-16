@@ -2,6 +2,7 @@ import { IsEnum, IsNotEmpty, IsString, IsNumberString } from "class-validator";
 
 export enum TangerineTransactionType {
   DEBIT = "DEBIT",
+  CREDIT = "CREDIT",
 }
 
 export interface TangerineCreditTransaction {
@@ -21,7 +22,7 @@ export class TangerineCreditTransactionDTO
 
   @IsNotEmpty({ message: "Transaction type is required." })
   @IsEnum(TangerineTransactionType, {
-    message: "Transaction must be CREDIT or add another to enum",
+    message: "Transaction must be CREDIT/DEBIT or add another to enum",
   })
   Transaction: TangerineTransactionType;
 

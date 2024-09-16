@@ -2,34 +2,44 @@ import React from "react";
 import {
   Box,
   Input,
-  Select,
-  VStack,
   HStack,
   FormControl,
   FormLabel,
+  Select,
 } from "@chakra-ui/react";
-import { SortBy, SortOrder } from "@/types";
+import LabelSelector from "../LabelSelector/LabelSelector";
 
 interface FilterBarProps {
   setStartDate: (startDate: string) => void;
   setEndDate: (endDate: string) => void;
   setMinAmount: (minAmount: number | null) => void;
   setMaxAmount: (maxAmount: number | null) => void;
-  setSortBy: (sortBy: SortBy) => void;
-  setSortOrder: (sortOrder: SortOrder) => void;
+  labelIds: string[];
+  setLabelIds: (labelIds: string[]) => void;
+  setPageLimit: (number: number) => void;
 }
+
+const PAGE_LIMIT_OPTIONS = [10, 25, 50, 100];
 
 const TransactionsFilter: React.FC<FilterBarProps> = ({
   setStartDate,
   setEndDate,
   setMinAmount,
   setMaxAmount,
-  setSortBy,
-  setSortOrder,
+  labelIds,
+  setLabelIds,
+  setPageLimit,
 }) => {
+  const addLabel = (labelId: string) => {
+    setLabelIds([...labelIds, labelId]);
+  };
+
+  const onLabelRemoval = (labelId: string) => {
+    setLabelIds(labelIds.filter((id) => id !== labelId));
+  };
   return (
-    <Box p={4} borderWidth={1} borderRadius="md" shadow="md">
-      <HStack w="full">
+    <Box p={4} borderWidth={1} borderRadius="md" shadow="md" backgroundColor={'white'} w='100%'>
+      <HStack w="full" marginBottom={2}>
         <FormControl>
           <FormLabel htmlFor="startDate">Start Date</FormLabel>
           <Input
@@ -63,26 +73,26 @@ const TransactionsFilter: React.FC<FilterBarProps> = ({
           />
         </FormControl>
         <FormControl>
-          <FormLabel htmlFor="sortBy">Sort By</FormLabel>
+          <FormLabel htmlFor="pageLimit">Page limit</FormLabel>
           <Select
-            id="sortBy"
-            onChange={(e) => setSortBy(e.target.value as SortBy)}
+            id="pageLimit"
+            onChange={(e) => setPageLimit(parseInt(e.target.value, 10))}
           >
-            <option value={SortBy.DATE}>Date</option>
-            <option value={SortBy.AMOUNT}>Amount</option>
-          </Select>
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="sortOrder">Sort Order</FormLabel>
-          <Select
-            id="sortOrder"
-            onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-          >
-            <option value={SortOrder.DESC}>Descending</option>
-            <option value={SortOrder.ASC}>Ascending</option>
+            {
+              PAGE_LIMIT_OPTIONS.map((limit) => (
+                <option key={limit} value={limit}>
+                  {limit}
+                </option>
+              ))
+            }
           </Select>
         </FormControl>
       </HStack>
+      <LabelSelector
+        onLabelSelection={addLabel}
+        onLabelRemoval={onLabelRemoval}
+        selectedLabelIds={labelIds}
+      />
     </Box>
   );
 };

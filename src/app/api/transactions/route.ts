@@ -1,4 +1,9 @@
-import { buildFilters, fetchTransactions, getValidSortField, parseQueryParams } from "@/helpers/db";
+import {
+  buildFilters,
+  fetchTransactions,
+  getValidSortField,
+  parseQueryParams,
+} from "@/helpers/db";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -21,11 +26,11 @@ export async function GET(request: Request) {
     });
 
     return Response.json({
-        transactions,
-        count,
-        totalAmount,
-        totalPages: Math.ceil(count / queryParams.limitNumber),
-      });
+      transactions,
+      count,
+      totalAmount,
+      totalPages: Math.ceil(count / queryParams.limitNumber),
+    });
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
       status: 500,

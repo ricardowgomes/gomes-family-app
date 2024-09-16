@@ -33,7 +33,7 @@ export async function PUT(
       where: {
         id,
       },
-      data
+      data,
     });
     return Response.json(updatedTransaction);
   } catch (error) {
@@ -46,7 +46,7 @@ export async function GET(
   context: { params: { id: string } },
 ) {
   try {
-    const transaction = await getTransactionById(context.params.id)
+    const transaction = await getTransactionById(context.params.id);
     return Response.json(transaction);
   } catch (error) {
     return Response.error();

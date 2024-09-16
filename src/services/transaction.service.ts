@@ -48,8 +48,6 @@ export class TransactionService extends BaseService {
 
   getOne = async (id: string) => {
     try {
-      console.log("TransactionService: getOne", id);
-      console.log("TransactionService: getOne", this.baseUrl);
       const response = await axios.get(`${this.baseUrl}/${id}`);
       return response.data;
     } catch (error) {
@@ -85,7 +83,10 @@ export class TransactionService extends BaseService {
     }
   };
 
-  upload = async (type: StatementUploadType, data: unknown[]) => {
+  upload = async (type: StatementUploadType, data: {
+    label: string;
+    transactions: unknown[];
+  }) => {
     try {
       const response = await axios.post(
         `${this.baseUrl}/upload/${type}`,

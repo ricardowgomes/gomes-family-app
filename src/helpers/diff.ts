@@ -1,6 +1,9 @@
 import { Transaction } from "@/types";
 
-export function gefDiffTransaction<T extends object>(original: Transaction, updated: Transaction): Partial<Transaction> {
+export function gefDiffTransaction<T extends object>(
+  original: Transaction,
+  updated: Transaction,
+): Partial<Transaction> {
   const diff: Partial<T> = {};
 
   for (const key in updated) {
@@ -8,7 +11,11 @@ export function gefDiffTransaction<T extends object>(original: Transaction, upda
       const originalValue = original[key];
       const updatedValue = updated[key];
 
-      if (typeof updatedValue === 'object' && updatedValue !== null && !Array.isArray(updatedValue)) {
+      if (
+        typeof updatedValue === "object" &&
+        updatedValue !== null &&
+        !Array.isArray(updatedValue)
+      ) {
         const nestedDiff = gefDiffTransaction(originalValue, updatedValue);
         if (Object.keys(nestedDiff).length > 0) {
           diff[key] = nestedDiff;

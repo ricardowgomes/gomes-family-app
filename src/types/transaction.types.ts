@@ -36,6 +36,8 @@ export enum SortBy {
 }
 
 export interface TransactionFilters {
+  page?: number;
+  limit?: number;
   searchTerm?: string;
   labelIds?: string[];
   startDate?: string;

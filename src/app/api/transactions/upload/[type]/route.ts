@@ -22,26 +22,40 @@ export async function POST(
   const serializer = SerializerMap[context.params.type];
   const validate = ValidatorsMap[context.params.type];
   const body = await request.json();
-  const data = await validate(body.data);
+  const transactions = await validate(body.data.transactions);
+
+  const tangerineLabelName = "tangerine-cc";
+  const label = await findOrCreateLabel(body.data.label);
+  const tangerineLabel = await findOrCreateLabel(tangerineLabelName);
 
   try {
-    data.forEach(async (record) => {
-      const { keyword, date, ...transaction } = serializer(record);
+    // Collect all keywords and create a map for fast lookup
+    const keywords = [...new Set(transactions.map(record => serializer(record).keyword))];
+    const keywordLabels = await Promise.all(keywords.map(keyword => findOrCreateKeyword(keyword)));
+    const keywordMap = new Map(keywordLabels.map(kl => [kl.name, kl.labelId]));
 
-      const keywordLabel = await findOrCreateKeyword(keyword);
-      const tangerineLabel = await findOrCreateLabel("tangerine-cc");
+    // Use a transaction to ensure atomicity
+    await prisma.$transaction(async (prisma) => {
+      await Promise.all(transactions.map(async (record) => {
+        const { keyword, date, ...transaction } = serializer(record);
+        const keywordLabelId = keywordMap.get(keyword);
 
-      // TODO: Extract this into a transaction helper function
-      await prisma.transaction.create({
-        data: {
-          ...transaction,
-          date: new Date(date),
-          labels: {
-            connect: [{ id: tangerineLabel.id }, { id: keywordLabel.labelId }],
+        await prisma.transaction.create({
+          data: {
+            ...transaction,
+            date: new Date(date),
+            labels: {
+              connect: [
+                { id: tangerineLabel.id },
+                { id: keywordLabelId },
+                { id: label.id }
+              ],
+            },
           },
-        },
-      });
+        });
+      }));
     });
+
     return NextResponse.redirect(
       "http://localhost:3000/finances/transactions",
       { status: 302 },

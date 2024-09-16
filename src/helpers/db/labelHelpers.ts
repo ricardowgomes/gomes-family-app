@@ -1,4 +1,4 @@
-import { RecordNotCreated, RecordNotFound } from "@/errors";
+import { OperationFailed, RecordNotCreated, RecordNotFound } from "@/errors";
 import { Label, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -17,19 +17,39 @@ export async function createLabel(labelName: string): Promise<Label> {
   }
 }
 
+export async function getLabelByName(labelName: string): Promise<Label> {
+  const label = await prisma.label.findFirst({
+    where: {
+      name: {
+        // Use the `contains` operator with `mode: 'insensitive'` for case-insensitive search
+        contains: labelName,
+        mode: "insensitive",
+      },
+    },
+  });
+
+  // Check if the label was found and return it
+  if (label) {
+    return label;
+  } else {
+    throw new RecordNotFound(`Label ${labelName} not found`);
+  }
+}
+
 export async function findOrCreateLabel(labelName: string): Promise<Label> {
   try {
-    const label = await prisma.label.upsert({
-      where: { name: labelName },
-      update: {},
-      create: {
-        name: labelName,
-      },
-    });
-
+    const label = await getLabelByName(labelName);
     return label;
   } catch (error) {
-    throw new RecordNotCreated(`Label ${labelName} not created`);
+    if (error.name === "RecordNotFound") {
+      try {
+        return await createLabel(labelName);
+      } catch (error) {
+        throw new RecordNotCreated(`Label ${labelName} not created`);
+      }
+    }
+    console.error("Error in findOrCreateLabel:", error);
+    throw new OperationFailed(`Label ${labelName} not found or created`);
   }
 }
 

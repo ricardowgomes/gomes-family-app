@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import PageContainer from "@/layouts/PageContainer";
-import { Box, Button, Select, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Input, Select, Stack, Text, useToast } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
 import { AttachmentIcon } from "@chakra-ui/icons";
 import Papa from "papaparse";
@@ -15,6 +15,8 @@ export default function Upload() {
   const [type, setType] = useState<StatementUploadType>(
     StatementUploadType.TangerineCC,
   );
+  const [monthLabel, setMonthLabel] = useState<string>("");
+
   const { transactionService } = useServices();
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -58,7 +60,10 @@ export default function Upload() {
           complete: async (results) => {
             try {
               // Use the updated upload function from transactionService
-              await transactionService.upload(type, results.data);
+              await transactionService.upload(type, {
+                label: monthLabel,
+                transactions: results.data,
+              });
 
               toast({
                 title: "Form submitted.",
@@ -124,11 +129,19 @@ export default function Upload() {
             placeholder="Select type of statement"
           >
             {Object.entries(StatementUploadType).map(([key, label]) => (
-              <option key={key} value={key}>
+              <option key={key} value={label}>
                 {label}
               </option>
             ))}
           </Select>
+
+          {/* Month Label Input */}
+          <Input
+            type="text"
+            value={monthLabel}
+            onChange={(e) => setMonthLabel(e.target.value)}
+            placeholder="Enter the month label (2024-01) for when the statement was issued"
+          />
 
           {/* Submit Button */}
           <Button colorScheme="teal" onClick={handleUpload}>

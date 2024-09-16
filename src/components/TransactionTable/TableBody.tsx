@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import LabelTag from "@/components/LabelTag/LabelTag";
 import { useMutateTransaction } from "@/hooks/transactions";
@@ -16,7 +16,8 @@ export const TableBody: React.FC<TransactionTableProps> = ({
   transactions,
   editTransaction,
 }) => {
-  const { removeTransaction, removeLabelFromTransaction } = useMutateTransaction();
+  const { removeTransaction, removeLabelFromTransaction } =
+    useMutateTransaction();
 
   const onLabelClose = (transactionId: string, labelId: string) => {
     removeLabelFromTransaction.mutate({
