@@ -83,10 +83,13 @@ export class TransactionService extends BaseService {
     }
   };
 
-  upload = async (type: StatementUploadType, data: {
-    label: string;
-    transactions: unknown[];
-  }) => {
+  upload = async (
+    type: StatementUploadType,
+    data: {
+      label: string;
+      transactions: unknown[];
+    },
+  ) => {
     try {
       const response = await axios.post(
         `${this.baseUrl}/upload/${type}`,

@@ -10,13 +10,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchTerm,
   placeholder,
 }) => (
-  <InputGroup>
+  <InputGroup
+    p={4}
+    borderWidth={1}
+    borderRadius="md"
+    shadow="md"
+    backgroundColor={"white"}
+    w="100%"
+  >
     <Input
       placeholder={placeholder}
       onChange={(e) => setSearchTerm(e.target.value)}
     />
     <InputRightElement pointerEvents="none">
-      <SearchIcon color="teal" />
+      <SearchIcon color="teal" position={'absolute'} right={8} top={7} />
     </InputRightElement>
   </InputGroup>
 );

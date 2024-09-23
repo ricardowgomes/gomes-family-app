@@ -1,16 +1,23 @@
 "use client";
 
 import LabelTag from "@/components/LabelTag/LabelTag";
+import { formatCurrency } from "@/helpers/formatters";
 import { useMutateTransaction } from "@/hooks/transactions";
-import { Transaction } from "@/types";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Tbody, Tr, Td, IconButton, VStack } from "@chakra-ui/react";
+import { Transaction, TransactionType } from "@/types";
+import { AddIcon, DeleteIcon, EditIcon, MinusIcon } from "@chakra-ui/icons";
+import { Tbody, Tr, Td, IconButton, VStack, Flex } from "@chakra-ui/react";
 import { format } from "date-fns";
 
 interface TransactionTableProps {
   transactions: Transaction[];
   editTransaction: (transactionId: string) => void;
 }
+
+const TypeOfTransaction = ({ transactionType }: { transactionType: TransactionType }) => (
+  <Flex borderWidth={1} borderColor={'red'} alignItems={'center'} justifyContent={'center'} w={8} h={8} borderRadius={'full'}>
+    {transactionType === TransactionType.EXPENSE ? <MinusIcon color="red" /> : <AddIcon color="green" />}
+  </Flex>
+);
 
 export const TableBody: React.FC<TransactionTableProps> = ({
   transactions,
@@ -30,9 +37,11 @@ export const TableBody: React.FC<TransactionTableProps> = ({
     <Tbody>
       {transactions.map((transaction) => (
         <Tr key={transaction.id}>
-          <Td>{transaction.transactionType}</Td>
+          <Td>
+            <TypeOfTransaction transactionType={transaction.transactionType} />
+          </Td>
           <Td>{transaction.name}</Td>
-          <Td>${transaction.amount}</Td>
+          <Td>${formatCurrency(transaction.amount)}</Td>
           <Td>{format(new Date(transaction.date), "dd/MM/yyyy")}</Td>
           <Td>
             <VStack>

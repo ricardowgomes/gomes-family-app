@@ -10,7 +10,13 @@ interface HeaderWithSortProps {
   isSelected: boolean;
 }
 
-const HeaderWithSort: React.FC<HeaderWithSortProps> = ({ onUpClick, onDownClick, label, sortOrder, isSelected }) => (
+const HeaderWithSort: React.FC<HeaderWithSortProps> = ({
+  onUpClick,
+  onDownClick,
+  label,
+  sortOrder,
+  isSelected,
+}) => (
   <Flex justifyContent="space-between" alignItems={"center"}>
     <Text>{label}</Text>
     <Flex direction="column">
@@ -18,7 +24,14 @@ const HeaderWithSort: React.FC<HeaderWithSortProps> = ({ onUpClick, onDownClick,
         size="xsm"
         variant="unstyled"
         aria-label={`ascending order sort by ${label}`}
-        icon={<ChevronUpIcon color="teal" width={6} height={6} opacity={isSelected && sortOrder === SortOrder.ASC ? 1 : .5} />}
+        icon={
+          <ChevronUpIcon
+            color="teal"
+            width={6}
+            height={6}
+            opacity={isSelected && sortOrder === SortOrder.ASC ? 1 : 0.5}
+          />
+        }
         onClick={onUpClick}
         marginBottom={-1}
         disabled={isSelected && sortOrder === SortOrder.ASC}
@@ -27,7 +40,14 @@ const HeaderWithSort: React.FC<HeaderWithSortProps> = ({ onUpClick, onDownClick,
         size="xsm"
         variant="unstyled"
         aria-label={`descending order sort by ${label}`}
-        icon={<ChevronDownIcon color="teal" width={6} height={6} opacity={isSelected && sortOrder === SortOrder.DESC ? 1 : .5} />}
+        icon={
+          <ChevronDownIcon
+            color="teal"
+            width={6}
+            height={6}
+            opacity={isSelected && sortOrder === SortOrder.DESC ? 1 : 0.5}
+          />
+        }
         onClick={onDownClick}
         marginTop={-1}
         disabled={isSelected && sortOrder === SortOrder.DESC}

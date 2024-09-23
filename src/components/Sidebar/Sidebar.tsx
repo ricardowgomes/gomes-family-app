@@ -25,14 +25,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   isExpanded,
   onToggle,
 }) => (
-  <ListItem>
+  <ListItem onClick={onToggle}>
     <Link
       as={NextLink}
       href={href}
       p={2}
       display="flex"
       alignItems="center"
-      onClick={onToggle}
       color={"white"}
     >
       {children}
@@ -65,7 +64,7 @@ const Sidebar = () => {
           <Text>Home</Text>
         </SidebarItem>
         <SidebarItem
-          href="#"
+          href="/finances"
           isExpanded={isOpenFinances}
           onToggle={onToggleFinances}
         >

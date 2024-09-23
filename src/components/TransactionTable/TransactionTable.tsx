@@ -16,6 +16,7 @@ import { useState } from "react";
 import UpdateTransactionForm from "../TransactionForm/UpdateTransactionForm";
 import NewTransactionForm from "../TransactionForm/NewTransactionForm";
 import PaginationComponent from "../Pagination/Pagination";
+import { formatCurrency } from "@/helpers/formatters";
 
 const TransactionTable = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
@@ -67,12 +68,24 @@ const TransactionTable = () => {
         setPageLimit={setPageLimit}
       />
       {transactions.length > 0 ? (
-        <TableContainer width="100%">
-          <Table variant="simple">
+        <TableContainer
+          p={4}
+          borderWidth={1}
+          borderRadius="md"
+          shadow="md"
+          backgroundColor={"white"}
+          w="100%"
+        >
+          <Table variant='striped' colorScheme='gray' size='sm'>
             <TableCaption>
-              {`Showing ${transactions.length} of ${count} transactions. Total amount: ${totalAmount}. Page ${page} of ${totalPages}`}
+              {`Showing ${transactions.length} of ${count} transactions. Total amount: ${formatCurrency(totalAmount)}. Page ${page} of ${totalPages}`}
             </TableCaption>
-            <TableHead sortBy={sortBy} setSortBy={setSortBy} setSortOrder={setSortOrder} sortOrder={sortOrder} />
+            <TableHead
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              setSortOrder={setSortOrder}
+              sortOrder={sortOrder}
+            />
             <TableBody
               transactions={transactions}
               editTransaction={editTransaction}

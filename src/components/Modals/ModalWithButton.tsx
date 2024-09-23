@@ -36,6 +36,7 @@ const ModalWithButton: React.FC<ModalWithButtonProps> = ({
         icon={<AddIcon color="white" />}
         onClick={() => setIsOpen(true)}
         size="lg"
+        borderRadius="full"
       />
       <Modal isOpen={isOpen} onClose={onCloseHandler} heading={heading}>
         {children}

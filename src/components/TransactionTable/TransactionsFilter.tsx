@@ -38,7 +38,14 @@ const TransactionsFilter: React.FC<FilterBarProps> = ({
     setLabelIds(labelIds.filter((id) => id !== labelId));
   };
   return (
-    <Box p={4} borderWidth={1} borderRadius="md" shadow="md" backgroundColor={'white'} w='100%'>
+    <Box
+      p={4}
+      borderWidth={1}
+      borderRadius="md"
+      shadow="md"
+      backgroundColor={"white"}
+      w="100%"
+    >
       <HStack w="full" marginBottom={2}>
         <FormControl>
           <FormLabel htmlFor="startDate">Start Date</FormLabel>
@@ -78,13 +85,11 @@ const TransactionsFilter: React.FC<FilterBarProps> = ({
             id="pageLimit"
             onChange={(e) => setPageLimit(parseInt(e.target.value, 10))}
           >
-            {
-              PAGE_LIMIT_OPTIONS.map((limit) => (
-                <option key={limit} value={limit}>
-                  {limit}
-                </option>
-              ))
-            }
+            {PAGE_LIMIT_OPTIONS.map((limit) => (
+              <option key={limit} value={limit}>
+                {limit}
+              </option>
+            ))}
           </Select>
         </FormControl>
       </HStack>
